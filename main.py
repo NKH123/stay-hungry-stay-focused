@@ -120,13 +120,13 @@ def train(args):
         args['train_idx_file'] = args['eval_idx_file']
 
     dataset = QuACDataset(os.path.join(args['data_dir'], args['train_tok_file']), os.path.join(args['data_dir'], args['train_idx_file']), os.path.join(args['data_dir'], args['train_question_freq_idx_file']), max_turns=args['max_turns'])
-    train_batch = QuACDataLoader(dataset, num_workers=4, batch_sampler=QuACBatchSampler(dataset, batch_size=args['batch_size']))
+    train_batch = QuACDataLoader(dataset, num_workers=0, batch_sampler=QuACBatchSampler(dataset, batch_size=args['batch_size']))
     with open(os.path.join(args['data_dir'], args['vocab_file']), 'rb') as f:
         vocab = pickle.load(f)
     args['vocab_size'] = len(vocab['word2id'])
     args['char_vocab_size'] = len(vocab['char2id'])
     dev_dataset = QuACDataset(os.path.join(args['data_dir'], args['eval_tok_file']), os.path.join(args['data_dir'], args['eval_idx_file']), os.path.join(args['data_dir'], args['train_question_freq_idx_file']), max_turns=args['max_turns'])
-    dev_batch = QuACDataLoader(dev_dataset, batch_size=args['batch_size'], num_workers=4)
+    dev_batch = QuACDataLoader(dev_dataset, batch_size=args['batch_size'], num_workers=0)
 
     pathlib.Path(args['model_dir']).mkdir(parents=True, exist_ok=True)
     model_file = '{}/{}'.format(args['model_dir'], args['model_file'])
