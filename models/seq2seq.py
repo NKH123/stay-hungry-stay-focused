@@ -933,8 +933,15 @@ class TeacherModel(nn.Module):
                 reward_pos = pos_novelty
                 reward_neg = neg_novelty
             else:
+                print("debug")
+                print("lambda 1 ", self.args['lambda1'] )
+                print("logit_pos ", logit_pos)
+                print("logit_neg ", logit_neg)
+                print("pos_novelty ", pos_novelty)
+                print("neg_novelty ", neg_novelty)
                 reward_pos = self.args['lambda1'] * logit_pos + (1 - self.args['lambda1']) * pos_novelty
                 reward_neg = self.args['lambda1'] * logit_neg + (1 - self.args['lambda1']) * neg_novelty
+                exit(0)
 
         if return_all_rewards:
             return loss, acc, reward_pos, reward_neg, logit_pos, logit_neg, pos_novelty, neg_novelty, nll_pos, nll_neg
